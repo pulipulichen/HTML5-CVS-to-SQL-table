@@ -2,7 +2,7 @@ var _process_file = function (_input, _callback) {
     _loading_enable();
     var _panel = $(".file-process-framework");
     //var _input = _panel.find("#input_mode_textarea").val().trim();
-    
+    console.log(_input);
     _input = Papa.parse(_input);
     _input = _input.data;
     
@@ -280,6 +280,7 @@ var _load_file = function (evt) {
             //console.log(_csv);
             _result = _csv;
         }
+        _result = _result.trim();
         
         _process_file(_result, function (_result) {
             _panel.find(".preview").val(_result);
