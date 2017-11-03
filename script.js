@@ -111,13 +111,13 @@ function isFloat(n){
     }
 }
 
-var _field_counter = 0;
+var _field_counter = 1;
 var _postgresql_name_filter = function (_name, _prefix) {
     _name = _name.trim();
     _name = _name.replace(/[^A-Z|^a-z|^0-9]+/g, "_");
     _name = _name.toLowerCase();
     if (isNaN(_name.substr(0, 1)) === false) {
-        _name = "f" + _name;
+        _name = _prefix.substr(0,1) + _name;
     }
     if (_name.split("_").join("") === "") {
         _name = _prefix + _field_counter;
