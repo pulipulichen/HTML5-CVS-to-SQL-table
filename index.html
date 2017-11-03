@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>HTML5-CVS-to-PostgreSQL-table</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -28,20 +28,19 @@
 </h1>
 
     <div class="ui top attached tabular menu">
-      <div class="active item" data-tab="textarea">Textarea</div>
-      <div class="item" data-tab="file">File</div>
+      <div class=" item" data-tab="textarea">Textarea</div>
+      <div class="active item" data-tab="file">File</div>
     </div>
 
 <!-- --------------------------------- -->
 
-<div class="ui bottom attached active tab segment" data-tab="textarea">
+<div class="ui bottom attached  tab segment" data-tab="textarea">
   <div class="field">
     <label for="input_mode_textarea">Paste text here: </label>
-    <textarea class="input-mode textarea" id="input_mode_textarea" onfocus="this.select()">Sales by Region	Europe	Asia	North America
-Qtr 1	21704714	8774099	12094215
-Qtr 2	17987034	12214447	10873099
-Qtr 3	19485029	14356879	15689543
-Qtr 4	22567894	15763492	17456723</textarea>
+    <textarea class="input-mode textarea" id="input_mode_textarea" onfocus="this.select()">Sales by Region,Qtr 1,Qtr 2,Qtr 3,Qtr 4
+Europe,21704714,17987034,19485029,22567894
+Asia,8774099,12214447,14356879,15763492
+North America,12094215,10873099,15689543,17456723</textarea>
   </div>
   <!--
   <div class="field">
@@ -53,9 +52,12 @@ Qtr 4	22567894	15763492	17456723</textarea>
 
 <!-- --------------------------------- -->
 
-<div class="ui bottom attached tab segment" data-tab="file">
+<div class="ui bottom attached active tab segment" data-tab="file">
   <div class="field">
-      <label for="files">Please select a TXT file in UTF8 encoding: </label>
+      <label for="files">
+          Please select a TXT file in UTF8 encoding: 
+          (<a href="data.csv">excample</a>)
+      </label>
     </div>
     <div class="field">
       <input class="myfile" name="files[]" id="files" multiple="" type="file" />
@@ -72,13 +74,13 @@ Qtr 4	22567894	15763492	17456723</textarea>
 
 
 </div> <!-- <div class="ui bottom attached tab segment" data-tab="file"> -->
-<div class="inline fields">
+<div class="inline fields" style="display: none;">
 	<div class="field">
-	  <input type="radio" name="sep" id="sep_tab" value="tab" checked="checked" />
+	  <input type="radio" name="sep" id="sep_tab" value="tab" />
 	  <label for="sep_tab">Tab</label>
 	</div>
 	<div class="field">
-	  <input type="radio" name="sep" id="sep_comma" value="," />
+	  <input type="radio" name="sep" id="sep_comma" value="," checked="checked"  />
 	  <label for="sep_comma">, Comma</label>
 	</div>
 	<div class="field">

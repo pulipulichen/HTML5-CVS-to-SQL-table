@@ -1,36 +1,35 @@
-var _process_file = function(_input, _callback) {
-    
+var _process_file = function (_input, _callback) {
+
     var _sep = $('[name="sep"]:checked').val();
-  if (_sep === "tab") {
-    _sep = "\t";
-  }
-  
-  // -----------------------------
-  var _lines = _input.split("\n");
-  var _rows = [];
-  for (var _l = 0; _l < _lines.length; _l++) {
-    var _cells = _lines[_l].split(_sep);
-    for (var _c = 0; _c < _cells.length; _c++) {
-      var _cell = _cells[_c];
-      
-      if (typeof(_rows[_c]) === "undefined") {
-        _rows[_c] = _cell;
-      }
-      else {
-        _rows[_c] = _rows[_c] + _sep + _cell;
-      }
-    } //for (var _c = 0; _c < _cells.length; _c++) {
-  } //for (var _l = 0; _l < _lines.length; _l++) {
-  
-  var _result = _rows.join("\n");
-    
+    if (_sep === "tab") {
+        _sep = "\t";
+    }
+
+    // -----------------------------
+    var _lines = _input.split("\n");
+    var _rows = [];
+    for (var _l = 0; _l < _lines.length; _l++) {
+        var _cells = _lines[_l].split(_sep);
+        for (var _c = 0; _c < _cells.length; _c++) {
+            var _cell = _cells[_c];
+
+            if (typeof (_rows[_c]) === "undefined") {
+                _rows[_c] = _cell;
+            } else {
+                _rows[_c] = _rows[_c] + _sep + _cell;
+            }
+        } //for (var _c = 0; _c < _cells.length; _c++) {
+    } //for (var _l = 0; _l < _lines.length; _l++) {
+
+    var _result = _rows.join("\n");
+
     //console.log(_input);
     //setTimeout(function () {
-        if (typeof(_callback) === "function") {
-            _callback(_result);
-        }
+    if (typeof (_callback) === "function") {
+        _callback(_result);
+    }
     //}, 1000);
-        
+
 };
 
 var _output_filename_surffix="_output";
@@ -111,7 +110,7 @@ var _load_textarea = function(evt) {
   
     var local = new Date(utc);
     var _file_name = local.toJSON().slice(0,19).replace(/:/g, "-");
-    _file_name = "output_" + _file_name + ".txt";
+    _file_name = "output_" + _file_name + ".sql";
 
     // ---------------------------
 
