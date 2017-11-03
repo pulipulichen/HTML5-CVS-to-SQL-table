@@ -24,3 +24,7 @@ https://codepen.io/pulipuli/pen/eBbMNx
     COPY 
         ur_table(id, log_id, proc_code, date, qty, name, price)
     FROM '\path\xxx.csv' DELIMITER ',' CSV HEADER;
+
+
+INSERT INTO films VALUES
+    ('UA502', 'Bananas', 105, '1971-07-13', 'Comedy', '82 minutes');

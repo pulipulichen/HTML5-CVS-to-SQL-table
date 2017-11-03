@@ -3,7 +3,9 @@ var _process_file = function (_input, _callback) {
     var _panel = $(".file-process-framework");
     var _input = _panel.find("#input_mode_textarea").val().trim();
     
-    var _output = _input;
+    _input = Papa.parse(_input);
+    _input = _input.data;
+    var _output = _csv_to_create_table_sql(_input);
     //------------------
     
     
@@ -11,6 +13,108 @@ var _process_file = function (_input, _callback) {
     _panel.find("#preview").val(_output);
     // --------------------
 };
+
+var _csv_to_create_table_sql = function (_input) {
+    var _field_name_list = _input[0];
+    
+    
+    var _field_name_types = {};
+    
+    // 判斷每個欄位的屬性
+    for (var _f = 0; _f < _field_name_list.length; _f++) {
+        //先把每個檔案名稱處理一下吧...
+        var _name = _field_name_list[_f].trim();
+        _name = _name.replace(/[^A-Z|^a-z|^0-9]+/g, "_");
+        _name = _name.toLowerCase();
+        if (isNaN(_name.substr(0,1)) === false) {
+            _name = "f" + _name;
+        }
+        if (_name.split("_").join("") === "") {
+            _name = "fiekd" + _f;
+        }
+        _field_name_list[_f] = _name;
+        
+        var _type = "int";  // text float
+        for (var _l = 1; _l < _input.length; _l++) {
+            var _cell = _input[_l][_f];
+            //console.log([_cell, _type, isNaN(_cell), isFloat(_cell)]);
+            if (_type === "int" && isNaN(_cell) === true) {
+                // 表示不是整數
+                if (isFloat(_cell) === false) {
+                    _type = "text";
+                }
+                else {
+                    _type = "float";
+                }
+            }
+            else {
+                if (isFloat(_cell) === true) {
+                    _type = "float";
+                } 
+            }
+            //else if (_type !== "float") {
+            //    _type = "int";
+            //}
+        }
+        _field_name_types[_field_name_list[_f]] = _type;
+    }
+    
+    //console.log(JSON.stringify(_field_name_types));
+    
+    // ------------------
+    
+    var _create_table_sql = "drop table if exists " + _table_name + ";\n"
+        + "CREATE TABLE " + _table_name + " (\n\t";
+    var _field_sql = [];
+    for (var _f = 0; _f < _field_name_list.length; _f++) {
+        var _name = _field_name_list[_f];
+        _field_sql.push(_name + " " + _field_name_types[_name]);
+    }
+    _create_table_sql = _create_table_sql + _field_sql.join(",\n\t") + "\n);\n";
+    
+    //console.log(_create_table_sql);
+    
+    // ------------------------------------
+    
+    var _insert_sql = [];
+    // INSERT INTO films VALUES
+   //  ('UA502', 'Bananas', 105, '1971-07-13', 'Comedy', '82 minutes');
+    for (var _l = 1; _l < _input.length; _l++) {
+        var _sql = "INSERT INTO " + _table_name + " VALUES (";
+        var _values = [];
+        for (var _f = 0; _f < _field_name_list.length; _f++) {
+            var _cell = _input[_l][_f];
+            var _field_name = _field_name_list[_f];
+            if (_field_name_types[_field_name] !== "text") {
+                try {
+                    eval("_cell = " + _cell);
+                } catch (e) {}
+            }
+            else {
+                _cell = "'" + _cell + "'";
+            }
+            _values.push(_cell);
+        }
+        _sql = _sql + _values.join(",") + ");";
+        _insert_sql.push(_sql);
+    }
+    
+    return _create_table_sql + "\n\n" + _insert_sql.join("\n");
+};
+
+function isInt(n){
+    return Number(n) === n && n % 1 === 0;
+}
+
+function isFloat(n){
+    try {
+        eval("n = " + n);
+        return Number(n) === n && n % 1 !== 0;
+    }
+    catch (e) {
+        return false;
+    }
+}
 
 // ---------------------
 
@@ -86,6 +190,7 @@ var _change_to_fixed = function () {
 
 var _output_filename_surffix = "";
 var _output_filename_ext = ".sql";
+var _table_name = "csv_table";
 
 // -------------------------------------
 
@@ -107,6 +212,7 @@ var _load_file = function (evt) {
             //+ _output_filename_surffix
             //+ _original_file_name.substring(_pos, _original_file_name.length);
     _file_name = _file_name + _output_filename_ext;
+    _table_name = _original_file_name.substr(0, _pos);
     
     var _file_type = _original_file_name.substring(_original_file_name.lastIndexOf(".")+1, _original_file_name.length).toLowerCase();
     //console.log(_file_type);
@@ -218,6 +324,7 @@ var _load_textarea = function (evt) {
             + ("0" + time.getMinutes()).slice(-2);
     var _file_name = "create_table-" + _file_date + _output_filename_ext;
     _panel.find(".filename").val(_file_name);
+    _table_name = "cvs_table_" + _file_date;
 
     // ---------------------------
 
@@ -373,6 +480,13 @@ var _change_show_std = function () {
     }
 };
 
+var _load_default_data = function (_filename) {
+    $.get(_filename, function(_result) {
+        var _panel = $(".file-process-framework");
+        _panel.find(".input-mode.textarea").val(_result).change();
+    });
+};
+
 // -----------------------
 
 $(function () {
@@ -386,6 +500,6 @@ $(function () {
     $("button.copy-csv").click(_copy_csv_table);
 
 
-    // 20170108 測試用
-    _load_textarea();
+    // 20171103 測試用
+    _load_default_data("data.csv");
 });

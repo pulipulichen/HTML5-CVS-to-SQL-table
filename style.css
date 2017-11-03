@@ -23,9 +23,10 @@ body {
 
 .file-process-framework textarea.preview {
   display: block;
-  width: 90%;
-  height: calc(100vh - 400px) !important;
+  width: 100%;
+  height: calc(100vh - 320px) !important;
   min-height: 0 !important;
+  max-height: 100vh !important;
 }
 
 .stat-result-container {
@@ -95,7 +96,7 @@ body {
 
 .source-code {
   overflow-y: auto;
-  max-height: calc(100vh - 190px);
+  /* max-height: calc(100vh - 190px); */
 }
 .input-mode.textarea {
   height: calc(100vh - 237px) !important;
@@ -134,4 +135,8 @@ label {
 .header h1 {
     font-size: 2em;
     margin: 0;
+}
+
+.column > .ui.segment {
+    height: calc(100vh - 4em);
 }
