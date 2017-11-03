@@ -32,6 +32,9 @@ var _csv_to_create_table_sql = function (_input) {
         var _type = "int";  // text float
         for (var _l = 1; _l < _input.length; _l++) {
             var _cell = _input[_l][_f];
+            if (_cell === "") {
+                continue;
+            }
             //console.log([_cell, _type, isNaN(_cell), isFloat(_cell)]);
             if (_type === "int" && isNaN(_cell) === true) {
                 // 表示不是整數
@@ -80,7 +83,10 @@ var _csv_to_create_table_sql = function (_input) {
         for (var _f = 0; _f < _field_name_list.length; _f++) {
             var _cell = _input[_l][_f];
             var _field_name = _field_name_list[_f];
-            if (_field_name_types[_field_name] !== "text") {
+            if (_cell === "") {
+                _cell = "NULL";
+            }
+            else if (_field_name_types[_field_name] !== "text") {
                 try {
                     eval("_cell = " + _cell);
                 } catch (e) {}
@@ -339,6 +345,8 @@ var _load_textarea = function (evt) {
 
     // ---------------------------
 
+    _result = _result.trim();
+    
     _process_file(_result, function (_result) {
         _panel.find(".preview").val(_result);
 
