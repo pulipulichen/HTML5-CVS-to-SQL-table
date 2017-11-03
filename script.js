@@ -1,10 +1,11 @@
 var _process_file = function (_input, _callback) {
     _loading_enable();
     var _panel = $(".file-process-framework");
-    var _input = _panel.find("#input_mode_textarea").val().trim();
+    //var _input = _panel.find("#input_mode_textarea").val().trim();
     
     _input = Papa.parse(_input);
     _input = _input.data;
+    
     var _output = _csv_to_create_table_sql(_input);
     //------------------
     
@@ -15,6 +16,8 @@ var _process_file = function (_input, _callback) {
 };
 
 var _csv_to_create_table_sql = function (_input) {
+    _table_name = _postgresql_name_filter(_table_name, "csv_table_");
+    
     var _field_name_list = _input[0];
     
     
@@ -23,16 +26,8 @@ var _csv_to_create_table_sql = function (_input) {
     // 判斷每個欄位的屬性
     for (var _f = 0; _f < _field_name_list.length; _f++) {
         //先把每個檔案名稱處理一下吧...
-        var _name = _field_name_list[_f].trim();
-        _name = _name.replace(/[^A-Z|^a-z|^0-9]+/g, "_");
-        _name = _name.toLowerCase();
-        if (isNaN(_name.substr(0,1)) === false) {
-            _name = "f" + _name;
-        }
-        if (_name.split("_").join("") === "") {
-            _name = "fiekd" + _f;
-        }
-        _field_name_list[_f] = _name;
+        var _name = _field_name_list[_f];
+        _field_name_list[_f] = _postgresql_name_filter(_name, "field_");
         
         var _type = "int";  // text float
         for (var _l = 1; _l < _input.length; _l++) {
@@ -115,6 +110,21 @@ function isFloat(n){
         return false;
     }
 }
+
+var _field_counter = 0;
+var _postgresql_name_filter = function (_name, _prefix) {
+    _name = _name.trim();
+    _name = _name.replace(/[^A-Z|^a-z|^0-9]+/g, "_");
+    _name = _name.toLowerCase();
+    if (isNaN(_name.substr(0, 1)) === false) {
+        _name = "f" + _name;
+    }
+    if (_name.split("_").join("") === "") {
+        _name = _prefix + _field_counter;
+        _field_counter++;
+    }
+    return _name;
+};
 
 // ---------------------
 
