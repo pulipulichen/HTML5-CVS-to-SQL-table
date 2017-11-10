@@ -1,9 +1,9 @@
 # HTML5-CVS-to-SQL-table
 An HTML5 widget for converting a CSV file to a SQL table
 
-https://github.com/pulipulichen/HTML5-CVS-to-SQL-table
-https://github.com/pulipulichen/HTML5-CVS-to-SQL-table.git
-https://pulipulichen.github.io/HTML5-CVS-to-SQL-table/
+- https://github.com/pulipulichen/HTML5-CVS-to-SQL-table
+- https://github.com/pulipulichen/HTML5-CVS-to-SQL-table.git
+- https://pulipulichen.github.io/HTML5-CVS-to-SQL-table/
 
 Based on 
 Table Data Transposer (rotate data from rows to columns or vice versa) - file process framework 20161217
