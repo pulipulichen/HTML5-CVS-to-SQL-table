@@ -68,7 +68,7 @@ var _csv_to_create_table_sql = function (_input) {
         var _name = _field_name_list[_f];
         _field_sql.push(_name + " " + _field_name_types[_name]);
     }
-    _create_table_sql = _create_table_sql + _field_sql.join(",\n\t") + "\n);\n";
+    _create_table_sql = _create_table_sql + _field_sql.join(",\n\t") + "\n);";
     
     //console.log(_create_table_sql);
     
