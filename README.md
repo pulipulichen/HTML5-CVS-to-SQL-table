@@ -40,9 +40,9 @@ HTML5-CVS-to-SQL-table
     	qtr_4 int
     );
     
-    INSERT INTO cvs_table_1959 VALUES ('Europe',21704.714,17987034,19485029,22567894);
-    INSERT INTO cvs_table_1959 VALUES ('As\nia',8774099,NULL,14356.879,NULL);
-    INSERT INTO cvs_table_1959 VALUES ('Nor,th America',12094215,10873.099,15689543,17456723);
+    INSERT INTO data VALUES ('Europe',21704.714,17987034,19485029,22567894);
+    INSERT INTO data VALUES ('As\nia',8774099,NULL,14356.879,NULL);
+    INSERT INTO data VALUES ('Nor,th America',12094215,10873.099,15689543,17456723);
 
 前半部是插入表格的語法，可以看到CSV第一列的欄位名稱已經被放上去，並且附有自動判斷的資料類型。後半部則是插入資料的語法。
 
